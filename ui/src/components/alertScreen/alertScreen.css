@@ -1,0 +1,16 @@
+   .centerWhite
+   { color: white;
+    text-align: center;
+    font-size: xx-large
+   }
+
+
+div {
+    position:absolute; height:100%; width:100%;
+    display: table;
+}
+h1 {
+    display: table-cell;
+    vertical-align: middle;
+    text-align:center;
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ioService from '../ioService';
+import AlertScreen from './alertScreen';
 
 class App extends Component {
   constructor(props) {
@@ -21,11 +22,13 @@ class App extends Component {
     this.setState({ connected: false })
   }
   render() {
+    let ComponentToShow;
+    if (!this.state.connected) {
+      ComponentToShow = <AlertScreen text="Please Check Your Internet Connection" />
+    }
     return (
       <div>
-        <div className="jumbotron">
-          Connection Lost
-        </div>
+        {ComponentToShow}
       </div>
     );
   }
