@@ -3,16 +3,86 @@ class ConnectedUsers {
     private users: Array<ConnectedUser> = [];
 
     addUser(userSocket: SocketIO.Socket) {
-        let user: ConnectedUser = {
-            id: userSocket.client.id,
-            socket: userSocket
-        };
-        this.users.push(user);
+        this.users.push(new ConnectedUser(userSocket));
         this.emitActiveUsers();
     }
 
     private emitActiveUsers() {
         this.users.forEach(user => user.socket.emit('activeUsers', this.users.length))
+    }
+
+    private emitOpponentFound(user: ConnectedUser) {
+        user.socket.emit("userFound");
+        user.game.opponentSocket.emit("userFound");
+    }
+
+    private listenForOpponentMove(user: ConnectedUser, opponent: ConnectedUser) {
+        user.socket.on("move", move => {
+            user.game.myMove = move;
+            if (!!opponent.game.opponentMove) {
+                this.evaluateResult(user, opponent);
+            } else {
+                opponent.game.opponentMove = move;
+            }
+        });
+    }
+
+    private evaluateResult(user: ConnectedUser, opponent: ConnectedUser) {
+        if (user.game.myMove === user.game.opponentMove) {
+            this.emitResults(user, "tie");
+            this.emitResults(opponent, "tie");
+
+        } else if (user.game.myMove === "Rock" && user.game.opponentMove === "Scissor") {
+            this.emitResults(user, "win");
+            this.emitResults(opponent, "lose");
+
+        } else if (user.game.myMove === "Rock" && user.game.opponentMove === "Paper") {
+            this.emitResults(user, "lose");
+            this.emitResults(opponent, "win");
+
+        } else if (user.game.myMove === "Paper" && user.game.opponentMove === "Scissor") {
+            this.emitResults(user, "lose");
+            this.emitResults(opponent, "win");
+
+        } else if (user.game.myMove === "Paper" && user.game.opponentMove === "Rock") {
+            this.emitResults(user, "win");
+            this.emitResults(opponent, "lose");
+        }
+
+        else if (user.game.myMove === "Scissor" && user.game.opponentMove === "Rock") {
+            this.emitResults(user, "lose");
+            this.emitResults(opponent, "win");
+        }
+
+        else if (user.game.myMove === "Scissor" && user.game.opponentMove === "Paper") {
+            this.emitResults(user, "win");
+            this.emitResults(opponent, "lose");
+        }
+        else {
+            this.emitResults(user, "error");
+            this.emitResults(opponent, "error");
+        }
+    }
+
+    private emitResults(user: ConnectedUser, result: string) {
+        user.socket.emit('result', result);
+    }
+
+    findOpponent(id: string) {
+        let opponent = <ConnectedUser>this.users.find(user => user.id !== id && !user.game),
+            currentUser = <ConnectedUser>this.userById(id);
+        currentUser.setOpponent({
+            myMove: null,
+            opponentMove: null,
+            opponentSocket: opponent.socket
+        });
+        opponent.setOpponent({
+            myMove: null,
+            opponentMove: null,
+            opponentSocket: currentUser.socket
+        });
+        this.emitOpponentFound(currentUser, opponent);
+
     }
 
     userById(id: string): ConnectedUser | undefined {

@@ -7,10 +7,16 @@ export default server => {
         let myContext = 0;
         connectedUsers.addUser(connection);
         console.log(connectedUsers.totalUsers);
+
+        connection.on('findOpponent', () => {
+            connectedUsers.findOpponent(connection.client.id);
+            console.log(connectedUsers.totalUsers);
+        });
+
         connection.on('disconnect', () => {
             connectedUsers.removeUserById(connection.client.id);
             console.log(connectedUsers.totalUsers);
-        })
+        });
     });
 
 
