@@ -8,6 +8,11 @@ export default {
             confirmConnect();
         });
     },
+    userCount: setActiveUSers => {
+        io.on('activeUsers', userCount => {
+            setActiveUSers(userCount);
+        });
+    },
     disconnect: connectionLost => {
         io.on('disconnect', () => {
             connectionLost();
