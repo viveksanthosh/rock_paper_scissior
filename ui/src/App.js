@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import ioService from '../ioService';
-import AlertScreen from './alertScreen';
+import ioService from './ioService';
+import AlertScreen from './components/alertScreen';
+import LandingPage from './pages/LandingPage'
 
 class App extends Component {
   constructor(props) {
@@ -25,6 +26,8 @@ class App extends Component {
     let ComponentToShow;
     if (!this.state.connected) {
       ComponentToShow = <AlertScreen text="Please Check Your Internet Connection" />
+    } else {
+      ComponentToShow = <LandingPage />
     }
     return (
       <div>

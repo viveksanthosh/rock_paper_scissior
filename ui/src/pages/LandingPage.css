@@ -1,0 +1,27 @@
+.largeRed{
+    color: red;
+    font-size: xx-large;
+    text-align: center;
+}
+
+.centerDiv{
+    padding-left: 50%;
+        position: inherit;
+
+}
+
+.largeBlue{
+    color: blue;
+    font-size: xx-large;
+    text-align: center;
+}
+
+.largeOrange{
+    color: orange;
+    font-size: xx-large;
+    text-align: center;
+}
+
+p{
+    margin: 0px
+}
