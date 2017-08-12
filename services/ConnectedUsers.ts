@@ -1,9 +1,6 @@
 import ConnectedUser from '../domains/ConnectedUser';
 class ConnectedUsers {
-    private users: ConnectedUser[];
-    constructor() {
-        this.users = [];
-    }
+    private users: Array<ConnectedUser> =[];
 
     addUser(userSocket: SocketIO.Socket) {
         let user: ConnectedUser = {
@@ -13,11 +10,11 @@ class ConnectedUsers {
         this.users.push(user);
     }
 
-    userById(id: string): ConnectedUser {
+    userById(id: string): ConnectedUser| undefined {
         return this.users.find(user => user.id === id)
     }
 
-    removeUserByIf(id: string) {
+    removeUserById(id: string) {
         this.users = this.users.filter(user => user.id !== id);
     }
 
