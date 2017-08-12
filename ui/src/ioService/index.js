@@ -8,6 +8,14 @@ export default {
             confirmConnect();
         });
     },
+    lookForOpponent: () => {
+        io.emit("findOpponent");
+    },
+    opponentFound: opponentFound => {
+        io.on("opponentFound", ()=>{
+            opponentFound();
+        })
+    },
     userCount: setActiveUSers => {
         io.on('activeUsers', userCount => {
             setActiveUSers(userCount);

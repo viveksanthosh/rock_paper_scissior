@@ -10,7 +10,6 @@ export default server => {
 
         connection.on('findOpponent', () => {
             connectedUsers.findOpponent(connection.client.id);
-            console.log(connectedUsers.totalUsers);
         });
 
         connection.on('disconnect', () => {

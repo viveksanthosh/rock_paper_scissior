@@ -14,6 +14,7 @@ class ConnectedUsers {
     private emitOpponentFound(user: ConnectedUser) {
         user.socket.emit("userFound");
         user.game.opponentSocket.emit("userFound");
+        console.log('opponentFound')
     }
 
     private listenForOpponentMove(user: ConnectedUser, opponent: ConnectedUser) {
@@ -69,20 +70,22 @@ class ConnectedUsers {
     }
 
     findOpponent(id: string) {
+        console.log('searching')
         let opponent = <ConnectedUser>this.users.find(user => user.id !== id && !user.game),
             currentUser = <ConnectedUser>this.userById(id);
-        currentUser.setOpponent({
-            myMove: null,
-            opponentMove: null,
-            opponentSocket: opponent.socket
-        });
-        opponent.setOpponent({
-            myMove: null,
-            opponentMove: null,
-            opponentSocket: currentUser.socket
-        });
-        this.emitOpponentFound(currentUser, opponent);
-
+        if (!!opponent) {
+            currentUser.setOpponent({
+                myMove: null,
+                opponentMove: null,
+                opponentSocket: opponent.socket
+            });
+            opponent.setOpponent({
+                myMove: null,
+                opponentMove: null,
+                opponentSocket: currentUser.socket
+            });
+            this.emitOpponentFound(currentUser);
+        }
     }
 
     userById(id: string): ConnectedUser | undefined {
