@@ -33,7 +33,16 @@ class ConnectedUsers {
 
     private evaluateResult(user: ConnectedUser, opponent: ConnectedUser) {
         console.log("evaluatiing")
-        if (user.game.myMove === user.game.opponentMove) {
+        if (user.game.myMove !== "NONE" && user.game.opponentMove === "NONE") {
+            this.emitResults(user, { result: "WON", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });
+            this.emitResults(opponent, { result: "LOST", myMove: user.game.opponentMove, opponentsMove: user.game.myMove });
+
+        } else if (user.game.myMove === "NONE" && user.game.opponentMove !== "NONE") {
+            this.emitResults(user, { result: "LOST", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });
+            this.emitResults(opponent, { result: "WON", myMove: user.game.opponentMove, opponentsMove: user.game.myMove });
+
+        }
+        else if (user.game.myMove === user.game.opponentMove) {
             this.emitResults(user, { result: "tie", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });
             this.emitResults(opponent, { result: "tie", myMove: user.game.opponentMove, opponentsMove: user.game.myMove });
 
@@ -75,10 +84,6 @@ class ConnectedUsers {
 
     findOpponent(id: string) {
         console.log('searching for id ' + id)
-        this.users.forEach(user => {
-            console.log(user.id)
-            console.log(user.lookingForOpponent)
-        })
         let opponent = <ConnectedUser>this.users.find(user => user.id !== id && user.lookingForOpponent),
             currentUser = <ConnectedUser>this.userById(id);
         currentUser.lookingForOpponent = true;
@@ -94,8 +99,8 @@ class ConnectedUsers {
                 opponentMove: null,
                 opponentSocket: currentUser.socket
             });
-            currentUser.lookingForOpponent = false;        
-            opponent.lookingForOpponent = false;        
+            currentUser.lookingForOpponent = false;
+            opponent.lookingForOpponent = false;
             this.emitOpponentFound(currentUser);
             this.listenForOpponentMove(currentUser, opponent)
             this.listenForOpponentMove(opponent, currentUser)

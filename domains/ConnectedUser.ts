@@ -1,7 +1,7 @@
 interface Game {
     opponentSocket: SocketIO.Socket,
-    myMove: "Rock" | "Paper" | "Scissor" | null,
-    opponentMove: "Rock" | "Paper" | "Scissor" | null
+    myMove: "Rock" | "Paper" | "Scissor" | "NONE" | null,
+    opponentMove: "Rock" | "Paper" | "Scissor" | "NONE" | null
 }
 
 export default class {

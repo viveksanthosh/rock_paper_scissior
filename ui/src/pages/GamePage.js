@@ -9,7 +9,7 @@ export default class extends React.Component {
         super(props);
         console.log(props)
         this.state = {
-            selection: "",
+            selection: "NONE",
             colors: {
                 Rock: "",
                 Paper: "",
@@ -17,11 +17,8 @@ export default class extends React.Component {
             }
         };
 
-         if(this.props.myMove && this.props.opponentsMove ){
-            let colors = {};
-            this.state.colors[this.props.myMove] = this.props.myColor;
-            this.state.colors[this.props.opponentsMove] = this.props.opponentColor;          
-        }
+        this.state.colors[this.props.myMove] = this.props.myColor;
+        this.state.colors[this.props.opponentsMove] = this.props.opponentColor;
         this._resetColors = this._resetColors.bind(this);
         this._onRockButtonSelect = this._onRockButtonSelect.bind(this);
         this._onPaperButtonSelect = this._onPaperButtonSelect.bind(this);
@@ -29,12 +26,7 @@ export default class extends React.Component {
         this._onCountDownEnd = this._onCountDownEnd.bind(this);
     }
 
-    componentWillReceiveProps(nextProps){
-        debugger;
-       
-    }
-
-    _onRockButtonSelect(event) {
+      _onRockButtonSelect(event) {
         this.setState({ selection: "Rock" })
         this._resetColors("Rock")
     }
