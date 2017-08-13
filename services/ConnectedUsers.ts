@@ -38,30 +38,30 @@ class ConnectedUsers {
             this.emitResults(opponent, "tie");
 
         } else if (user.game.myMove === "Rock" && user.game.opponentMove === "Scissor") {
-            this.emitResults(user, "win");
-            this.emitResults(opponent, "lose");
+            this.emitResults(user, "WON");
+            this.emitResults(opponent, "LOST");
 
         } else if (user.game.myMove === "Rock" && user.game.opponentMove === "Paper") {
-            this.emitResults(user, "lose");
-            this.emitResults(opponent, "win");
+            this.emitResults(user, "LOST");
+            this.emitResults(opponent, "WON");
 
         } else if (user.game.myMove === "Paper" && user.game.opponentMove === "Scissor") {
-            this.emitResults(user, "lose");
-            this.emitResults(opponent, "win");
+            this.emitResults(user, "LOST");
+            this.emitResults(opponent, "WON");
 
         } else if (user.game.myMove === "Paper" && user.game.opponentMove === "Rock") {
-            this.emitResults(user, "win");
-            this.emitResults(opponent, "lose");
+            this.emitResults(user, "WON");
+            this.emitResults(opponent, "LOST");
         }
 
         else if (user.game.myMove === "Scissor" && user.game.opponentMove === "Rock") {
-            this.emitResults(user, "lose");
-            this.emitResults(opponent, "win");
+            this.emitResults(user, "LOST");
+            this.emitResults(opponent, "WON");
         }
 
         else if (user.game.myMove === "Scissor" && user.game.opponentMove === "Paper") {
-            this.emitResults(user, "win");
-            this.emitResults(opponent, "lose");
+            this.emitResults(user, "WON");
+            this.emitResults(opponent, "LOST");
         }
         else {
             this.emitResults(user, "error");

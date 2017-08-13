@@ -8,6 +8,11 @@ export default {
             confirmConnect();
         });
     },
+     onResult: onResult => {
+        io.on("result", result =>  {
+            onResult(result);
+        });
+    },
     lookForOpponent: () => {
         io.emit("findOpponent");
     },

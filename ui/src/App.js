@@ -13,6 +13,7 @@ class App extends Component {
     this._lookingForOpponent = this._lookingForOpponent.bind(this);
     this._setActiveUSers = this._setActiveUSers.bind(this);
     this._onAnswerSubmit = this._onAnswerSubmit.bind(this);
+    this._onResults = this._onResults.bind(this);
     this._connectionLost = this._connectionLost.bind(this);
     this.state = {
       connected: false,
@@ -20,15 +21,21 @@ class App extends Component {
       lookingForOpponent: false,
       opponentAvaliable: false,
       answerSubimitted: false,
+      result: "",
       colors: {
         myColor: "",
         opponentColor: ""
       }
     }
     ioService.connect(this._confirmConnect);
+    ioService.onResult(this._onResults);
     ioService.userCount(this._setActiveUSers);
     ioService.opponentFound(this._opponentFound);
     ioService.disconnect(this._connectionLost);
+  }
+
+  _onResults(result) {
+    this.setState({ result })
   }
 
   _confirmConnect() {
@@ -69,8 +76,8 @@ class App extends Component {
       ComponentToShow = <LoadingPage userCount={this.state.activeUsers} />
     } else if (this.state.lookingForOpponent && this.state.opponentAvaliable && !this.state.answerSubimitted) {
       ComponentToShow = <GamePage showCountDown={true} {...this.state.colors} onClick={this._onAnswerSubmit} />
-    } else if (this.state.lookingForOpponent && this.state.opponentAvaliable && this.state.answerSubimitted) {
-      ComponentToShow = <GamePage {...this.state.colors} />
+    } else if (this.state.result && this.state.lookingForOpponent && this.state.opponentAvaliable && this.state.answerSubimitted) {
+      ComponentToShow = <GamePage {...this.state.colors} result={this.state.result} />
     }
     return (
       <div>

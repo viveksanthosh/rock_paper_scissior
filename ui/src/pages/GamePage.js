@@ -8,8 +8,14 @@ export default class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selection: ""
+            selection: "",
+            colors: {
+                Rock: "",
+                Paper: "",
+                Scissor: ""
+            }
         };
+        this._resetColors = this._resetColors.bind(this);
         this._onRockButtonSelect = this._onRockButtonSelect.bind(this);
         this._onPaperButtonSelect = this._onPaperButtonSelect.bind(this);
         this._onScissorButtonSelect = this._onScissorButtonSelect.bind(this);
@@ -18,15 +24,28 @@ export default class extends React.Component {
 
     _onRockButtonSelect(event) {
         this.setState({ selection: "Rock" })
+        this._resetColors("Rock")
     }
     _onPaperButtonSelect(event) {
         this.setState({ selection: "Paper" })
+        this._resetColors("Paper")
     }
     _onScissorButtonSelect(event) {
         this.setState({ selection: "Scissor" })
+        this._resetColors("Scissor")
     }
 
-    _onCountDownEnd(){
+    _resetColors(element) {
+        let colors = {
+            Rock: "",
+            Paper: "",
+            Scissor: ""
+        };
+        colors[element] = this.props.myColor
+        this.setState({ colors })
+    }
+
+    _onCountDownEnd() {
         this.props.onClick(this.state.selection)
     }
 
@@ -38,17 +57,23 @@ export default class extends React.Component {
                 <p className="largeWhite" style={{ color: this.props.opponentColor }}>OPPONENT</p>
                 <br /> <br />
                 {this.props.showCountDown && <CountDown onTimerEnd={this._onCountDownEnd} />}
+                {this.props.result && this.props.result.toLowerCase() === "tie" && <p className="largeWhite" style={{ color: "red" }}>
+                    {`Its a TIE`}</p>}
+                }
+                {this.props.result && this.props.result.toLowerCase() !== "tie" && <p className="largeWhite" style={{ color: "red" }}>
+                    {`You Have ${this.props.result}`}</p>}
+                }
                 <br /> <br />
                 <div style={{ textAlign: "center" }}>
-                    <Rock onClick={this._onRockButtonSelect} />
+                    <Rock color={this.state.colors.Rock} clickable={this.props.showCountDown} onClick={this._onRockButtonSelect} />
                 </div>
                 <br /> <br /> <br /> <br />  <br /> <br />
                 <div style={{ textAlign: "center" }}>
-                    <Paper onClick={this._onPaperButtonSelect} />
+                    <Paper color={this.state.colors.Paper} clickable={this.props.showCountDown} onClick={this._onPaperButtonSelect} />
                 </div>
                 <br /> <br /> <br /> <br />  <br /> <br />
                 <div style={{ textAlign: "center" }}>
-                    <Scissor onClick={this._onScissorButtonSelect} />
+                    <Scissor color={this.state.colors.Scissor} clickable={this.props.showCountDown} onClick={this._onScissorButtonSelect} />
                 </div>
             </div>
         );
