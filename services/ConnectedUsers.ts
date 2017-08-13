@@ -20,8 +20,8 @@ class ConnectedUsers {
     private listenForOpponentMove(user: ConnectedUser, opponent: ConnectedUser) {
         console.log('regestered')
         user.socket.on("move", move => {
-            console.log("my move "+move)
-            console.log("opponents move "+opponent.game.myMove)
+            console.log("my move " + move)
+            console.log("opponents move " + opponent.game.myMove)
             user.game.myMove = move;
             if (!!opponent.game.myMove) {
                 this.evaluateResult(user, opponent);
@@ -34,42 +34,42 @@ class ConnectedUsers {
     private evaluateResult(user: ConnectedUser, opponent: ConnectedUser) {
         console.log("evaluatiing")
         if (user.game.myMove === user.game.opponentMove) {
-            this.emitResults(user, "tie");
-            this.emitResults(opponent, "tie");
+            this.emitResults(user, { result: "tie", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });
+            this.emitResults(opponent, { result: "tie", myMove: user.game.opponentMove, opponentsMove: user.game.myMove });
 
         } else if (user.game.myMove === "Rock" && user.game.opponentMove === "Scissor") {
-            this.emitResults(user, "WON");
-            this.emitResults(opponent, "LOST");
+            this.emitResults(user, { result: "WON", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });
+            this.emitResults(opponent, { result: "LOST", myMove: user.game.opponentMove, opponentsMove: user.game.myMove });
 
         } else if (user.game.myMove === "Rock" && user.game.opponentMove === "Paper") {
-            this.emitResults(user, "LOST");
-            this.emitResults(opponent, "WON");
+            this.emitResults(user, { result: "LOST", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });
+            this.emitResults(opponent, { result: "WON", myMove: user.game.opponentMove, opponentsMove: user.game.myMove });
 
         } else if (user.game.myMove === "Paper" && user.game.opponentMove === "Scissor") {
-            this.emitResults(user, "LOST");
-            this.emitResults(opponent, "WON");
+            this.emitResults(user, { result: "LOST", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });
+            this.emitResults(opponent, { result: "WON", myMove: user.game.opponentMove, opponentsMove: user.game.myMove });
 
         } else if (user.game.myMove === "Paper" && user.game.opponentMove === "Rock") {
-            this.emitResults(user, "WON");
-            this.emitResults(opponent, "LOST");
+            this.emitResults(user, { result: "WON", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });
+            this.emitResults(opponent, { result: "LOST", myMove: user.game.opponentMove, opponentsMove: user.game.myMove });
         }
 
         else if (user.game.myMove === "Scissor" && user.game.opponentMove === "Rock") {
-            this.emitResults(user, "LOST");
-            this.emitResults(opponent, "WON");
+            this.emitResults(user, { result: "LOST", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });
+            this.emitResults(opponent, { result: "WON", myMove: user.game.opponentMove, opponentsMove: user.game.myMove });
         }
 
         else if (user.game.myMove === "Scissor" && user.game.opponentMove === "Paper") {
-            this.emitResults(user, "WON");
-            this.emitResults(opponent, "LOST");
+            this.emitResults(user, { result: "WON", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });
+            this.emitResults(opponent, { result: "LOST", myMove: user.game.opponentMove, opponentsMove: user.game.myMove });
         }
         else {
-            this.emitResults(user, "error");
-            this.emitResults(opponent, "error");
+            this.emitResults(user, { result: "error", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });
+            this.emitResults(opponent, { result: "error", myMove: user.game.opponentMove, opponentsMove: user.game.myMove });
         }
     }
 
-    private emitResults(user: ConnectedUser, result: string) {
+    private emitResults(user: ConnectedUser, result: { result: string, myMove: any, opponentsMove: any }) {
         user.socket.emit('result', result);
     }
 

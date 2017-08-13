@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 export default class extends React.Component {
     constructor(props) {
         super(props);
+        console.log(props)
         this.state = {
             selection: "",
             colors: {
@@ -15,11 +16,22 @@ export default class extends React.Component {
                 Scissor: ""
             }
         };
+
+         if(this.props.myMove && this.props.opponentsMove ){
+            let colors = {};
+            this.state.colors[this.props.myMove] = this.props.myColor;
+            this.state.colors[this.props.opponentsMove] = this.props.opponentColor;          
+        }
         this._resetColors = this._resetColors.bind(this);
         this._onRockButtonSelect = this._onRockButtonSelect.bind(this);
         this._onPaperButtonSelect = this._onPaperButtonSelect.bind(this);
         this._onScissorButtonSelect = this._onScissorButtonSelect.bind(this);
         this._onCountDownEnd = this._onCountDownEnd.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps){
+        debugger;
+       
     }
 
     _onRockButtonSelect(event) {
@@ -58,7 +70,7 @@ export default class extends React.Component {
                 <br /> <br />
                 {this.props.showCountDown && <CountDown onTimerEnd={this._onCountDownEnd} />}
                 {this.props.result && this.props.result.toLowerCase() === "tie" && <p className="largeWhite" style={{ color: "red" }}>
-                    {`Its a TIE`}</p>}
+                    {`You Have ${this.props.result}`}</p>}
                 }
                 {this.props.result && this.props.result.toLowerCase() !== "tie" && <p className="largeWhite" style={{ color: "red" }}>
                     {`You Have ${this.props.result}`}</p>}

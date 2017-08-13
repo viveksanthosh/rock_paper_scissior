@@ -21,7 +21,7 @@ class App extends Component {
       lookingForOpponent: false,
       opponentAvaliable: false,
       answerSubimitted: false,
-      result: "",
+      result: { result: "", myMove: "", opponentsMove: "" },
       colors: {
         myColor: "",
         opponentColor: ""
@@ -66,7 +66,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.colors)
     let ComponentToShow;
     if (!this.state.connected) {
       ComponentToShow = <AlertScreen text="Please Check Your Internet Connection" />
@@ -76,8 +75,8 @@ class App extends Component {
       ComponentToShow = <LoadingPage userCount={this.state.activeUsers} />
     } else if (this.state.lookingForOpponent && this.state.opponentAvaliable && !this.state.answerSubimitted) {
       ComponentToShow = <GamePage showCountDown={true} {...this.state.colors} onClick={this._onAnswerSubmit} />
-    } else if (this.state.result && this.state.lookingForOpponent && this.state.opponentAvaliable && this.state.answerSubimitted) {
-      ComponentToShow = <GamePage {...this.state.colors} result={this.state.result} />
+    } else if (this.state.result.result && this.state.lookingForOpponent && this.state.opponentAvaliable && this.state.answerSubimitted) {
+      ComponentToShow = <GamePage {...this.state.colors} {...this.state.result} />
     }
     return (
       <div>
