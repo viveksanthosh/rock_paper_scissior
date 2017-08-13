@@ -9,3 +9,5 @@ To run the app:
 5. then type "cd .." and the  npm start to srart the server
 (Note: you may need to run this as a root user)
 6. Enter the host host name and the ui will appear (it runs on port 80)
+
+The app is currently hosted here http://ec2-54-186-18-96.us-west-2.compute.amazonaws.com/
