@@ -12,15 +12,18 @@ class ConnectedUsers {
     }
 
     private emitOpponentFound(user: ConnectedUser) {
-        user.socket.emit("userFound");
-        user.game.opponentSocket.emit("userFound");
+        user.socket.emit("userFound", { myColor: "purple", opponentColor: "green" });
+        user.game.opponentSocket.emit("userFound", { myColor: "green", opponentColor: "purple" });
         console.log('opponentFound')
     }
 
     private listenForOpponentMove(user: ConnectedUser, opponent: ConnectedUser) {
+        console.log('regestered')
         user.socket.on("move", move => {
+            console.log("my move "+move)
+            console.log("opponents move "+opponent.game.myMove)
             user.game.myMove = move;
-            if (!!opponent.game.opponentMove) {
+            if (!!opponent.game.myMove) {
                 this.evaluateResult(user, opponent);
             } else {
                 opponent.game.opponentMove = move;
@@ -29,6 +32,7 @@ class ConnectedUsers {
     }
 
     private evaluateResult(user: ConnectedUser, opponent: ConnectedUser) {
+        console.log("evaluatiing")
         if (user.game.myMove === user.game.opponentMove) {
             this.emitResults(user, "tie");
             this.emitResults(opponent, "tie");
@@ -86,6 +90,9 @@ class ConnectedUsers {
                 opponentSocket: currentUser.socket
             });
             this.emitOpponentFound(currentUser);
+            currentUser.lookingForOpponent = false;
+            this.listenForOpponentMove(currentUser, opponent)
+            this.listenForOpponentMove(opponent, currentUser)
         }
     }
 

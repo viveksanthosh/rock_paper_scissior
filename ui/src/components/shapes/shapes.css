@@ -1,23 +1,10 @@
-
-
-svg {
-  display: block;
-}
-
-.close-x {
-  stroke: black;
-  fill: transparent;
-  stroke-linecap: round;
-  stroke-width: 5;
-}
-
 .largeX{
   font-size: xx-large;
   font-size: -webkit-xxx-large;
 }
 
-button {
-  width: 100px;
-  height: 100px;
+.xButton {
+  width: 116px;
+  height: 113px;
   padding: 0;
 }

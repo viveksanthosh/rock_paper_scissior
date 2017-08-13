@@ -12,12 +12,18 @@ class App extends Component {
     this._opponentFound = this._opponentFound.bind(this);
     this._lookingForOpponent = this._lookingForOpponent.bind(this);
     this._setActiveUSers = this._setActiveUSers.bind(this);
+    this._onAnswerSubmit = this._onAnswerSubmit.bind(this);
     this._connectionLost = this._connectionLost.bind(this);
     this.state = {
       connected: false,
       activeUsers: 0,
       lookingForOpponent: false,
-      opponentAvaliable: false
+      opponentAvaliable: false,
+      answerSubimitted: false,
+      colors: {
+        myColor: "",
+        opponentColor: ""
+      }
     }
     ioService.connect(this._confirmConnect);
     ioService.userCount(this._setActiveUSers);
@@ -33,8 +39,9 @@ class App extends Component {
     this.setState({ activeUsers })
   }
 
-  _opponentFound() {
+  _opponentFound(colors) {
     this.setState({ opponentAvaliable: true })
+    this.setState({ colors })
   }
 
   _lookingForOpponent() {
@@ -45,7 +52,14 @@ class App extends Component {
   _connectionLost() {
     this.setState({ connected: false })
   }
+
+  _onAnswerSubmit(event) {
+    this.setState({ answerSubimitted: true });
+    ioService.makeMove(event)
+  }
+
   render() {
+    console.log(this.state.colors)
     let ComponentToShow;
     if (!this.state.connected) {
       ComponentToShow = <AlertScreen text="Please Check Your Internet Connection" />
@@ -53,12 +67,14 @@ class App extends Component {
       ComponentToShow = <LandingPage userCount={this.state.activeUsers} lookingForOpponent={this._lookingForOpponent} />
     } else if (this.state.lookingForOpponent && !this.state.opponentAvaliable) {
       ComponentToShow = <LoadingPage userCount={this.state.activeUsers} />
-    } else if (this.state.lookingForOpponent && this.state.opponentAvaliable) {
-      ComponentToShow = <GamePage userCount={this.state.activeUsers} />
+    } else if (this.state.lookingForOpponent && this.state.opponentAvaliable && !this.state.answerSubimitted) {
+      ComponentToShow = <GamePage showCountDown={true} {...this.state.colors} onClick={this._onAnswerSubmit} />
+    } else if (this.state.lookingForOpponent && this.state.opponentAvaliable && this.state.answerSubimitted) {
+      ComponentToShow = <GamePage {...this.state.colors} />
     }
     return (
       <div>
-       <GamePage/>
+        {ComponentToShow}
       </div>
     );
   }
