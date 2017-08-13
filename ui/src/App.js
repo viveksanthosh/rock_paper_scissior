@@ -3,6 +3,7 @@ import ioService from './ioService';
 import AlertScreen from './components/alertScreen';
 import LandingPage from './pages/LandingPage'
 import LoadingPage from './pages/LoadingPage'
+import GamePage from './pages/GamePage'
 
 class App extends Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class App extends Component {
   }
 
   _lookingForOpponent() {
+    ioService.lookForOpponent();
     this.setState({ lookingForOpponent: true })
   }
 
@@ -51,10 +53,12 @@ class App extends Component {
       ComponentToShow = <LandingPage userCount={this.state.activeUsers} lookingForOpponent={this._lookingForOpponent} />
     } else if (this.state.lookingForOpponent && !this.state.opponentAvaliable) {
       ComponentToShow = <LoadingPage userCount={this.state.activeUsers} />
+    } else if (this.state.lookingForOpponent && this.state.opponentAvaliable) {
+      ComponentToShow = <GamePage userCount={this.state.activeUsers} />
     }
     return (
       <div>
-        {ComponentToShow}
+       <GamePage/>
       </div>
     );
   }

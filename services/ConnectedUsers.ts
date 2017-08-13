@@ -71,8 +71,9 @@ class ConnectedUsers {
 
     findOpponent(id: string) {
         console.log('searching')
-        let opponent = <ConnectedUser>this.users.find(user => user.id !== id && !user.game),
+        let opponent = <ConnectedUser>this.users.find(user => user.id !== id && user.lookingForOpponent),
             currentUser = <ConnectedUser>this.userById(id);
+        currentUser.lookingForOpponent = true;
         if (!!opponent) {
             currentUser.setOpponent({
                 myMove: null,

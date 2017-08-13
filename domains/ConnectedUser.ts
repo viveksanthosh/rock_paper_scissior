@@ -7,6 +7,7 @@ interface Game {
 export default class {
     id: string;
     socket: SocketIO.Socket;
+    lookingForOpponent: boolean = false;
     game: Game
 
     constructor(socket: SocketIO.Socket) {

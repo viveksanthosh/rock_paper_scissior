@@ -12,7 +12,7 @@ export default {
         io.emit("findOpponent");
     },
     opponentFound: opponentFound => {
-        io.on("opponentFound", ()=>{
+        io.on("userFound", ()=>{
             opponentFound();
         })
     },
