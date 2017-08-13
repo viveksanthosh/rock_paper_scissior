@@ -74,11 +74,16 @@ class ConnectedUsers {
     }
 
     findOpponent(id: string) {
-        console.log('searching')
+        console.log('searching for id ' + id)
+        this.users.forEach(user => {
+            console.log(user.id)
+            console.log(user.lookingForOpponent)
+        })
         let opponent = <ConnectedUser>this.users.find(user => user.id !== id && user.lookingForOpponent),
             currentUser = <ConnectedUser>this.userById(id);
         currentUser.lookingForOpponent = true;
         if (!!opponent) {
+            console.log('found ' + opponent.id)
             currentUser.setOpponent({
                 myMove: null,
                 opponentMove: null,
@@ -89,8 +94,9 @@ class ConnectedUsers {
                 opponentMove: null,
                 opponentSocket: currentUser.socket
             });
+            currentUser.lookingForOpponent = false;        
+            opponent.lookingForOpponent = false;        
             this.emitOpponentFound(currentUser);
-            currentUser.lookingForOpponent = false;
             this.listenForOpponentMove(currentUser, opponent)
             this.listenForOpponentMove(opponent, currentUser)
         }
