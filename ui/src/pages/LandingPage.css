@@ -16,6 +16,12 @@
     text-align: center;
 }
 
+.normalWhite{
+    color: white;
+    font-size: x-large;
+    text-align: center;
+}
+
 .largeBlue{
     color: blue;
     font-size: xx-large;
