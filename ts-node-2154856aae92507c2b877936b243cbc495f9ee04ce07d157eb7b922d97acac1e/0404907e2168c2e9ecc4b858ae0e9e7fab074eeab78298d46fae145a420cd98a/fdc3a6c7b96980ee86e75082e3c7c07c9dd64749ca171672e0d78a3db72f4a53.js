@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express = require("express");
+const config_1 = require("./config");
+const SocketServices_1 = require("./services/SocketServices");
+const app = express(), server = app.listen(config_1.default.PORT, () => {
+    console.log('listening on port ' + config_1.default.PORT);
+});
+app.use('/', express.static('ui/build'));
+SocketServices_1.default(server);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiL2hvbWUvdml2ZWsvaW5tby9lbnRyeS50cyIsInNvdXJjZXMiOlsiL2hvbWUvdml2ZWsvaW5tby9lbnRyeS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLG1DQUFtQztBQUNuQyxxQ0FBOEI7QUFDOUIsOERBQXNEO0FBRXRELE1BQU0sR0FBRyxHQUFHLE9BQU8sRUFBRSxFQUNqQixNQUFNLEdBQUcsR0FBRyxDQUFDLE1BQU0sQ0FBQyxnQkFBTSxDQUFDLElBQUksRUFBRTtJQUM3QixPQUFPLENBQUMsR0FBRyxDQUFDLG9CQUFvQixHQUFHLGdCQUFNLENBQUMsSUFBSSxDQUFDLENBQUM7QUFDcEQsQ0FBQyxDQUFDLENBQUM7QUFFUCxHQUFHLENBQUMsR0FBRyxDQUFDLEdBQUcsRUFBRSxPQUFPLENBQUMsTUFBTSxDQUFDLFVBQVUsQ0FBQyxDQUFDLENBQUM7QUFFekMsd0JBQWEsQ0FBQyxNQUFNLENBQUMsQ0FBQSIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCAqIGFzIGV4cHJlc3MgZnJvbSAnZXhwcmVzcyc7XG5pbXBvcnQgY29uZmlnIGZyb20gJy4vY29uZmlnJztcbmltcG9ydCBTb2NrZXRTZXJ2aWNlIGZyb20gJy4vc2VydmljZXMvU29ja2V0U2VydmljZXMnO1xuXG5jb25zdCBhcHAgPSBleHByZXNzKCksXG4gICAgc2VydmVyID0gYXBwLmxpc3Rlbihjb25maWcuUE9SVCwgKCkgPT4ge1xuICAgICAgICBjb25zb2xlLmxvZygnbGlzdGVuaW5nIG9uIHBvcnQgJyArIGNvbmZpZy5QT1JUKTtcbiAgICB9KTtcbiAgICBcbmFwcC51c2UoJy8nLCBleHByZXNzLnN0YXRpYygndWkvYnVpbGQnKSk7XG5cblNvY2tldFNlcnZpY2Uoc2VydmVyKSJdfQ==

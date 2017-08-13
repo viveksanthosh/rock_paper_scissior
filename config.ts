@@ -1,3 +1,3 @@
 export default {
-    PORT: 4200
+    PORT: 80
 }

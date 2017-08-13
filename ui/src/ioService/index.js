@@ -1,6 +1,6 @@
 import socket from 'socket.io-client'
 
-const io = socket('http://localhost:4200/')
+const io = socket(window.location.origin)
 io.on("result", result => console.log(result))
 export default {
     connect: confirmConnect => {
