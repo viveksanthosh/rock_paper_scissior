@@ -43,8 +43,8 @@ class ConnectedUsers {
 
         }
         else if (user.game.myMove === user.game.opponentMove) {
-            this.emitResults(user, { result: "tie", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });
-            this.emitResults(opponent, { result: "tie", myMove: user.game.opponentMove, opponentsMove: user.game.myMove });
+            this.emitResults(user, { result: "TIED", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });
+            this.emitResults(opponent, { result: "TIED", myMove: user.game.opponentMove, opponentsMove: user.game.myMove });
 
         } else if (user.game.myMove === "Rock" && user.game.opponentMove === "Scissor") {
             this.emitResults(user, { result: "WON", myMove: user.game.myMove, opponentsMove: user.game.opponentMove });

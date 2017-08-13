@@ -61,10 +61,8 @@ export default class extends React.Component {
                 <p className="largeWhite" style={{ color: this.props.opponentColor }}>OPPONENT</p>
                 <br /> <br />
                 {this.props.showCountDown && <CountDown onTimerEnd={this._onCountDownEnd} />}
-                {this.props.result && this.props.result.toLowerCase() === "tie" && <p className="largeWhite" style={{ color: "red" }}>
-                    {`You Have ${this.props.result}`}</p>}
-                }
-                {this.props.result && this.props.result.toLowerCase() !== "tie" && <p className="largeWhite" style={{ color: "red" }}>
+
+                {this.props.result  && <p className="largeWhite" style={{ color: "red" }}>
                     {`You Have ${this.props.result}`}</p>}
                 }
                 <br /> <br />
